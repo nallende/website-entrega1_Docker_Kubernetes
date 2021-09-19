@@ -1,0 +1,73 @@
+version: "2.1"
+services: 
+    db: 
+        build: ./db
+        container_name: db
+        mem_limit: 2048m
+        mem_reservation: 500M
+        cpus: 0.5
+        ports:
+            - "3306:3306"
+        volumes:
+          - db_data:/var/lib/mysql
+        restart: always
+        healthcheck:
+            test: [ "CMD","ping", "-h", "localhost" ] #  HealthCheck
+            interval: 3s
+            timeout: 1s
+            retries: 3     
+        environment:
+            MARIADB_ROOT_PASSWORD: 6677
+            MARIADB_DATABASE: wordpress
+            MARIADB_USER: wordpress
+            MARIADB_PASSWORD: 6677
+        networks:
+            website_network:
+                aliases:
+                    - wordpress    
+    wordpress:
+        build: .
+        container_name: wordpress
+        mem_limit: 2048m
+        mem_reservation: 500M
+        cpus: 0.5
+        depends_on:
+            db:
+                condition: service_started
+        ports:
+            - "80"
+        volumes:
+            - wordpress_data:/var/www/html
+        networks:
+            website_network:
+                aliases:
+                    - wordpress
+        restart: always
+        environment:
+            WORDPRESS_DB_HOST: db:3306
+            WORDPRESS_DB_USER: wordpress
+            WORDPRESS_DB_PASSWORD: 6677
+            WORDPRESS_DB_NAME: wordpress
+    nginx:
+        build: ./nginx
+        container_name: nginx
+        mem_limit: 2048m
+        mem_reservation: 500M
+        cpus: 0.5
+
+        ports:
+            - "443:443"
+            - "80"        
+        networks:
+            website_network:
+                aliases:
+                    - nginx-proxy
+networks:
+      website_network:
+        name: website_network       
+volumes:
+        db_data:
+          driver: local
+          name: db_data
+        wordpress_data: {}      
+    
