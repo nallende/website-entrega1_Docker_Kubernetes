@@ -25,4 +25,4 @@ Se creo  un archivo docker-compose.yaml con las siguientes especificaciones:
 10. Deberá pasar mínimo 2 variables de entorno a alguno de los contenedores – (1 punto)  11. Deberá limitar los recursos, de CPU, Memory y Swap para cada uno de los contenedores 
 12. Adjuntar en el classroom archivos docker-compose.yaml y Dockerfiles de ser necesario.  También colocar el link de su repositorio en Docker-hub 
 
-![Alt text](//nallende/website-entrega1_Docker_Kubernetes/www.neosoporte.cl.jpg?raw=true "TRABAJO DOCKER")
+![Alt text](https://github.com/nallende/website-entrega1_Docker_Kubernetes/blob/master/www.neosoporte.cl.JPG?raw=true "TRABAJO DOCKER")
